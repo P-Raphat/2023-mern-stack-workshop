@@ -1,68 +1,69 @@
-let mongoose = require('mongoose'),
+let
     express = require('express'),
-    router = express.Router();
+    route = express.Router(),
+    studentSchema = require('../models/Student');
 
-let studentSchema = require('../models/Student');
+// const student = mongoose.model('Student-list',studentSchema,'student-list')
+const student = studentSchema;
 
-router.route('/create-student').post((req,res,next)=>{
-    studentSchema.create(req.body,(error,data)=>{
-        if(error){ 
-            return next(error);
-        } else{
-            console.log(data);
-            res.json(data);
-        }
-    })
+route.post('/create-student', async (req, res) => {
+    const payload = req.body;
+    let Student = new student(payload);
+    try {
+        const data = await Student.save();
+        res.status(201).send({ status: 'OK', data: data })
+    } catch (err) {
+        console.log(err)
+        res.status(400)
+    }
 })
 
 //Read students
-router.route('/').get((req,res,next)=>{
-    studentSchema.find((error,data)=>{
-        if(error){
-            return next(error);
-        }else{
-            res.json(data);
-        }
-    })
+route.get('/', async (req, res) => {
+    try {
+        let data = await student.find({})
+        res.status(200).send({ status: 'OK', data: data })
+    } catch (err) {
+        console.log(err)
+        res.status(400)
+    }
 })
 
 //Get single student
-router.route('/edit-student/:id').get((req,res,next)=>{
-    studentSchema.findById(req.params.id,(error,data)=>{
-        if(error){
-            return next(error);
-        }else{
-            res.json(data);
-        }
-    })
+route.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        let data = await student.findById(id);
+        res.status(200).send({ status: 'OK', data: data })
+    } catch (err) {
+        console.log(err)
+        res.status(400)
+    }
 })
 
 //Update student
-router.route('/update-student/:id').put((req,res,next)=>{
-    studentSchema.findByIdAndUpdate(req.params.id,{
-        $set:req.body
-    },(error,data)=>{
-        if(error){
-            console.log(error);
-            return next(error);
-        }else{
-            res.json(data)
-            console.log("Student uodated successfully!!");
-        }
-    })
+route.put('/update/:id', async (req, res, next) => {
+    const { id } = req.params;
+    const { body } = req;
+    try {
+        let data = await student.findByIdAndUpdate(id,{$set: body});
+        res.status(200).send({ status: 'OK', data: data })
+    } catch (err) {
+        console.log(err)
+        res.status(400)
+    }
 })
 
 //Delete Student
-router.route('/delete-student/:id').delete((req,res,next)=>{
-    studentSchema.findByIdAndRemove(req.params.id,(error,data)=>{
-        if(error){
-            return next(error);
-        }else{
-            res.status(200).json({
-                msg:data
-            })
-        }
-    })
+route.delete('/delete/:id',async(req, res) => {
+    const { id } = req.params;
+    try {
+        await student.findByIdAndDelete(id);
+        res.sendStatus(204)
+    } catch (err) {
+        console.log(err)
+        res.status(400)
+    }
 })
 
-module.exports = router;
+module.exports = route;

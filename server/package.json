@@ -5,13 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server":"nodemon index"
+    "server": "nodemon main"
   },
   "author": "Peeraphat",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.20.2",
-    "cores": "^0.8.5",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "mongoose": "^7.4.3"
   },

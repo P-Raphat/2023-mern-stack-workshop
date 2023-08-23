@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 
 import Nav from 'react-bootstrap/Nav';
 import NavBar from 'react-bootstrap/NavBar';
@@ -19,7 +18,6 @@ import StudentList from './components/student-list.component';
 
 function App() {
   return (
-
       <div className="App">
 
           <NavBar bg="dark" variant="dark">
@@ -51,7 +49,7 @@ function App() {
             <Col md='12'>
               <div className='wrapper'>
                 <Routes>
-                  <Route path='/' Component={CreateStudent} />
+                  <Route path='/' Component={StudentList} />
                   <Route path='/create-student' Component={CreateStudent} />
                   <Route path='/edit-student/:id' Component={EditStudent} />
                   <Route path='/student-list' Component={StudentList} />
@@ -61,7 +59,6 @@ function App() {
           </Row>
         </Container>
       </div>
-
   );
 }
 
