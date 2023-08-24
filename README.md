@@ -1,47 +1,152 @@
 # 2023-mern-stack-workshop
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project uses the **MERN** Stack structure using:
 
+ - **M**ongoDb
+ - **E**xpress
+ - **R**eactjs
+ - **N**odejs
+## Installation
+
+Install my-project with npm
+
+### Clientside:
+
+```bash
+cd this-project
+npm install
+```
+and
+### Serverside:
+
+```bash
+cd this-project/server
+npm install
+```
 ## Available Scripts
 
-In the project directory, you can run:
+In the project directory, you can run
 
-### `npm start`
+#### Clientside (WebApp Reactjs):
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```bash
+npm run dev
+```
+#### Serverside (API Nodejs):
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Runs the API server on: [http://localhost:4000](http://localhost:4000)
 
-### `npm test`
+```bash
+npm run server
+```
+## API Reference
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Add new student (Create)
 
-### `npm run build`
+<details>
+ <summary><code>POST</code> <code><b>/student/create-student</b></code> <code>(add new student)</code></summary>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+##### Parameters
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> | name      |  type     | data type               | description                                                           |
+> |-----------|-----------|-------------------------|-----------------------------------------------------------------------|
+> | name      |  required | string   | N/A  |
+> | email      |  required | string   | N/A  |
+> | rollno      |  required | string  | N/A  |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+##### Responses
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `201`         | `application/json`        | `{"status":"OK","data":{}}`                                |
+> | `400`         | `application/json`                | `{"status":"400"}`                            |
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+</details>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+------------------------------------------------------------------------------------------
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Get student (Read)
 
-## Learn More
+<details>
+ <summary><code>GET</code> <code><b>/student</b></code> <code>(gets all students)</code></summary>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+##### Parameters
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+> None
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"status":"OK","data":[{}]}`                                                         |
+
+</details>
+
+<details>
+ <summary><code>GET</code> <code><b>/student/:id</b></code> <code>(get a single student)</code></summary>
+
+##### Parameters
+
+> | name              |  type     | data type      | description                         |
+> |-------------------|-----------|----------------|-------------------------------------|
+> | `id` |  required | string   | The specific string id        |
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"status":"OK","data":{}}     `                                                    |
+> | `400`         | `application/json`                | `{"status":"400"}`                            |
+
+
+</details>
+
+#### Edit student (Update)
+
+<details>
+  <summary><code>PUT</code> <code><b>/student/update/:id</b></code> <code>(updates student)</code></summary>
+
+##### Parameters
+
+> | name              |  type     | data type      | description                         |
+> |-------------------|-----------|----------------|-------------------------------------|
+> | `id` |  required | string   | The specific string id        |
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `200`         | `application/json`        | `{"status":"OK","data":{}}`        |
+> | `400`         | `application/json`                | `{"code":"400","message":"Bad Request"}`                            |
+
+
+</details>
+
+#### Delete student
+
+<details>
+  <summary><code>DELETE</code> <code><b>/student/delete/:id</b></code> <code>(deletes a single student)</code></summary>
+
+##### Parameters
+
+> | name              |  type     | data type      | description                         |
+> |-------------------|-----------|----------------|-------------------------------------|
+> | `id` |  required | string   | The specific string id        |
+
+##### Responses
+
+> | http code     | content-type                      | response                                                            |
+> |---------------|-----------------------------------|---------------------------------------------------------------------|
+> | `204`         |         |          |
+> | `400`         | `application/json`                | `{"status":"400","message":"Bad Request"}`                            |
+
+
+</details>
+
+## Authors
+
+- [@P-Raphat](https://github.com/P-Raphat)
+
