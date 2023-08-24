@@ -2,16 +2,18 @@ import React, { Component } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import axios from 'axios'
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 type State = {
   name?:string,
   email?:string,
   rollno?:string,
+  submitted?:boolean
 }
 
+//HOC 
 function withParams(Component:React.ComponentClass) {
-  return (props:any)=> <Component {...props} params={useParams()} />;
+  return (props:any)=> <Component {...props} navHook={useNavigate()} params={useParams()} />;
 }
 
 class EditStudent extends Component<any,State> {
@@ -22,19 +24,22 @@ class EditStudent extends Component<any,State> {
         this.state = {
             name: '',
             email: '',
-            rollno: ''
+            rollno: '',                
+            submitted:false
         }
 
     }
     componentDidMount() {
         const { id } = this.props.params;
-        console.log(id)
+        // console.log(id)
         axios.get('http://localhost:4000/student/' + id)
         .then(res => {
+            // console.log(res)
+            const { name , email , rollno} = res.data.data
             this.setState({
-                name: res.data.name,
-                email: res.data.email,
-                rollno: res.data.rollno
+                name: name,
+                email: email,
+                rollno: rollno
             })
         })
         .catch((error) => {
@@ -44,33 +49,41 @@ class EditStudent extends Component<any,State> {
 
     onChangeStudentName:React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({ name: e.target.value })
+        // console.log(e.target.value)
     }
 
     onChangeStudentEmail:React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({ email: e.target.value })
+        // console.log(e.target.value)
     }
 
     onChangeStudentRollno:React.ChangeEventHandler<HTMLInputElement> = (e) => {
         this.setState({ rollno: e.target.value })
+        // console.log(e.target.value)
     }
 
     onSubmit = (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        const { id } = this.props.params;
+        const { name , email , rollno} = this.state
         const studentObject = {
-            name: this.state.name,
-            email: this.state.email,
-            rollno: this.state.rollno
+            name: name,
+            email: email,
+            rollno: rollno
         };
 
-        axios.put('http://localhost:4000/students/update/' + this.props.match.params.id, studentObject).then((res) => {
-            console.log(res.data);
+        axios.put('http://localhost:4000/student/update/' + id, studentObject).then((res) => {
+            // console.log(res.data);
             console.log('Student Successfully Updated');
+            this.setState({submitted: true});
         }).catch((error) => {
             console.log(error)
         });
-
+        this.props.navHook('/student-list')
         // Redirect to student list
+        // const navigate = useNavigate()
+        // navigate(`/student-list`)
+
         // const navigate = useNavigate()
         // navigate('/student-list')
         // this.props.history.push('/student-list')
